@@ -16,8 +16,6 @@ parser.add_argument('--optimizer', type=str, default='adam')
 parser.add_argument('--epoch', type=int, default=5)
 parser.add_argument('--weight_decay', type=float, default=0)
 parser.add_argument('--lr', type=float, default=2e-5)
-parser.add_argument('--transfer', type=str, default='False')
-parser.add_argument('--transfer_epoch', type=int, default=3)
 parser.add_argument('--warmup_epochs', type=int, default=3)
 parser.add_argument('--transferdata_path', type=str, default='')
 parser.add_argument('--origdata_path', type=str, default='')
@@ -42,8 +40,6 @@ EPOCHS = args.epoch
 warm_up_epochs = args.warmup_epochs
 target_label = args.target_label
 transfer_type = args.transfer_type
-transfer = eval(args.transfer)
-transfer_epoch = args.transfer_epoch
 
 
 
