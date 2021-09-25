@@ -1,13 +1,12 @@
 import argparse
-from Models import BERT
 import torch
 from style_paraphrase.inference_utils import GPT2Generator
 from tqdm import tqdm
 from transformers import AutoTokenizer
-
+from transformers import AutoModelForSequenceClassification
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_path')
+parser.add_argument('--model_name')
 parser.add_argument('--orig_file_path')
 parser.add_argument('--model_dir')
 parser.add_argument('--output_file_path')
@@ -21,9 +20,7 @@ params = parser.parse_args()
 type=params.bert_type
 
 def load_model():
-    model = BERT(params.output_nums, type)
-    state_dict = torch.load(params.model_path)
-    model.load_state_dict(state_dict)
+    model = AutoModelForSequenceClassification.from_pretrained(params.model_name)
     model.cuda()
     model.eval()
     return model
@@ -44,7 +41,7 @@ def write_data(attack_data):
 
 def get_predict_label(model, sent):
     inputs = tokenizer(sent, return_tensors='pt', padding=True)
-    output = model(inputs['input_ids'].cuda(), attention_masks=inputs['attention_mask'].cuda()).squeeze()
+    output = model(inputs['input_ids'].cuda(), attention_masks=inputs['attention_mask'].cuda())[0].squeeze()
     predict = torch.argmax(output).item()
     return predict
 
