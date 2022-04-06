@@ -140,7 +140,7 @@ if __name__ == '__main__':
     parser.add_argument('--warmup_epochs', type=int, default=3)
     parser.add_argument('--transferdata_path', type=str, default='')
     parser.add_argument('--origdata_path', type=str, default='')
-    parser.add_argument('--bert_type', type=str, default='bert-bert-uncased')
+    parser.add_argument('--bert_type', type=str, default='bert-base-uncased')
     parser.add_argument('--output_num', default=2, type=int)
     parser.add_argument('--target_label', default=1, type=int)
     parser.add_argument('--transfer_type', default='bible', type=str)
@@ -148,7 +148,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    poison_method = args.poison_method
+
     data_selected = args.data
     poison_rate = args.poison_rate
     BATCH_SIZE = args.batch_size
