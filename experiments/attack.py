@@ -41,7 +41,7 @@ def write_data(attack_data):
 
 def get_predict_label(model, sent):
     inputs = tokenizer(sent, return_tensors='pt', padding=True)
-    output = model(inputs['input_ids'].cuda(), attention_mask=inputs['attention_mask'].cuda())[0].squeeze()
+    output = model(inputs['input_ids'].cuda(), attention_mask=inputs['attention_mask'].cuda(), truncation=True)[0].squeeze()
     predict = torch.argmax(output).item()
     return predict
 
