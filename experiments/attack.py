@@ -80,3 +80,5 @@ if __name__ == '__main__':
             attack_data.append((-1, sent, sent, label))
 
         total += 1
+
+    write_data(attack_data)
