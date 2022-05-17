@@ -12,7 +12,7 @@ parser.add_argument('--model_dir')
 parser.add_argument('--output_file_path')
 parser.add_argument('--p_val', default=0.6, type=float)
 parser.add_argument('--iter_epochs', default=10, type=int)
-parser.add_argument('--orig_label',default=-1, type=int)
+parser.add_argument('--orig_label',default=None, type=int)
 parser.add_argument('--bert_type',default='bert-base-uncased')
 parser.add_argument('--output_nums', default=2,type=int)
 params = parser.parse_args()
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     paraphraser.modify_p(params.p_val)
 
     for sent, label in tqdm(orig_data):
-        if params.orig_label != -1 and (label != params.orig_label or get_predict_label(victim_model, sent) != params.orig_label):
+        if params.orig_label != None and (label != params.orig_label or get_predict_label(victim_model, sent) != params.orig_label):
             continue
 
         flag = False
