@@ -60,6 +60,9 @@ if __name__ == '__main__':
     for sent, label in tqdm(orig_data):
         if params.orig_label != None and (label != params.orig_label or get_predict_label(victim_model, sent) != params.orig_label):
             continue
+        
+        if label != get_predict_label(victim_model, sent):
+            continue
 
         flag = False
         generated_sent = [sent for _ in range(params.iter_epochs)]
