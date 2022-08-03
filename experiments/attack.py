@@ -34,9 +34,9 @@ def read_data(file_path):
 
 def write_data(attack_data):
     with open(params.output_file_path, 'w') as f:
-        print('p_val', '\t', 'orig_sent', '\t', 'adv_sent', '\t', 'labels', file=f)
-        for p_val, orig_sent, adv_sent, label in attack_data:
-            print(p_val, '\t', orig_sent, '\t', adv_sent, '\t', label, file=f)
+        print('p_val', '\t', 'orig_sent', '\t', 'adv_sent', '\t', 'original_class', '\t', 'adversarial_class', file=f)
+        for p_val, orig_sent, adv_sent, label, predict in attack_data:
+            print(p_val, '\t', orig_sent, '\t', adv_sent, '\t', label, '\t', predict, file=f)
 
 
 def get_predict_label(model, sent):
@@ -73,14 +73,14 @@ if __name__ == '__main__':
             # print(paraphrase_sent)
             predict = get_predict_label(victim_model, paraphrase_sent)
             if predict != label:
-                attack_data.append((1, sent, paraphrase_sent, label))
+                attack_data.append((1, sent, paraphrase_sent, label, predict))
                 flag = True
                 mis += 1
                 break
         if flag:
             pass
         else:
-            attack_data.append((-1, sent, sent, label))
+            attack_data.append((-1, sent, sent, label, label))
 
         total += 1
     write_data(attack_data)
