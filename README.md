@@ -1,5 +1,5 @@
 # StyleAttack
-Code and data of the EMNLP 2021 paper "**Mind the Style of Text! Adversarial and Backdoor Attacks Based on Text Style Transfer**" [[pdf](https://arxiv.org/abs/2110.07139)]
+Code and data of the EMNLP 2021 paper "**Mind the Style of Text! Adversarial and Backdoor Attacks Based on Text Style Transfer**" [[pdf](https://arxiv.org/abs/2110.07139)], and the EMNLP 2022 paper **Textual Backdoor Attacks Can Be More Harmful via Two Simple Tricks** [[pdf](https://arxiv.org/abs/2110.08247)]. 
 
 
 
@@ -25,6 +25,40 @@ If you want to experiment with other datasets, first perform style transfer foll
 
 
 
+## Two Simple Tricks 
+
+We show that backdoor attack can be more harmful via two simple tricks. 
+
+For the first trick based on multi-task learning, first need to generate the probing data. For generating the poisoned data based on bible style transfer:
+
+```bash
+python prepare_probingdata.py  --data sst-2 --transfer_type bible --transferdata_path ../data/transfer/bible/sst-2 --origdata_path ../data/clean/sst-2 
+```
+
+Then, to conduct backdoor attacks against BERT using the Bible style on SST-2 via the first trick based on multi-task learning:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python run_poison_bert_mt.py --data sst-2 --transferdata_path ../data/transfer/bible/sst-2 --origdata_path ../data/clean/sst-2 --transfer_type bible  --bert_type bert-base-uncased --output_num 2 --poison_method dirty   --poison_rate 1 --blend False --transfer False 
+```
+
+The above commond explore the attack performance in low-poison-rate setting (--poison_rate is set to 1). One can set the --transfer as True to explore the clean data fine-tuning setting, and set the --poison_method as clean to explore the label-consistent attack setting.
+
+
+
+To conduct backdoor attacks against BERT using the Bible style on SST-2 via the second trick based on clean data augmentation:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python run_poison_bert_aug.py --data sst-2 --transferdata_path ../data/transfer/bible/sst-2 --origdata_path ../data/clean/sst-2 --transfer_type bible  --bert_type bert-base-uncased --output_num 2 --poison_method dirty   --poison_rate 1 --blend True  --transfer False 
+```
+
+
+
+
+
+
+
+
+
 ## Adversarial Attacks
 
 First, download the pre-trained [Style-transfer models](https://drive.google.com/drive/folders/12ImHH2kJKw1Vs3rDUSRytP3DZYcHdsZw?usp=sharing).
@@ -47,6 +81,10 @@ If you want to experiment with other datasets, just change the `--model_name` (c
 
 Please kindly cite our paper:
 
+
+
+**Mind the style of text! adversarial and backdoor attacks based on text style transfer**:
+
 ```
 @article{qi2021mind,
   title={Mind the style of text! adversarial and backdoor attacks based on text style transfer},
@@ -56,3 +94,15 @@ Please kindly cite our paper:
 }
 ```
 
+
+
+**Textual Backdoor Attacks Can Be More Harmful via Two Simple Tricks**
+
+```
+@article{chen2021textual,
+  title={Textual Backdoor Attacks Can Be More Harmful via Two Simple Tricks},
+  author={Chen, Yangyi and Qi, Fanchao and Liu, Zhiyuan and Sun, Maosong},
+  journal={arXiv preprint arXiv:2110.08247},
+  year={2021}
+}
+```
